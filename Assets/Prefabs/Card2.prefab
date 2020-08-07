@@ -92,6 +92,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 769177c5a5893b242aa8858c2b934ae3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  PlayerManager: {fileID: 0}
 --- !u!114 &7027477409116002440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,7 +173,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 90, y: 130}
+  m_Size: {x: 120, y: 177}
   m_EdgeRadius: 0
 --- !u!50 &2919005352439649635
 Rigidbody2D:

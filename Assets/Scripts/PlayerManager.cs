@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
+using UnityEngine.UI;
 using Mirror;
 
 public class PlayerManager : NetworkBehaviour
@@ -11,10 +13,13 @@ public class PlayerManager : NetworkBehaviour
     public GameObject EnemyArea;
     public GameObject DropZone;
     public int currHandSize;
+    public int currDropSize;
+
+    private string path = "Assets/Resources/cards.txt";
 
     private int maxHandSize = 6;
 
-    List<GameObject> cards = new List<GameObject>();
+    private List<string> cardNames = new List<string>();
 
     // Start is called before the first frame update
     public override void OnStartClient()
@@ -30,19 +35,29 @@ public class PlayerManager : NetworkBehaviour
     [Server]
     public override void OnStartServer()
     {
-        cards.Add(Card1);
-        cards.Add(Card2);
+        StreamReader sr = new StreamReader(path);
+        string line;
+        while((line = sr.ReadLine()) != null)
+        {
+            cardNames.Add(line);
+        }
+        sr.Close();
     }
 
     [Command]
-    public void CmdDealCards()
+    public void CmdDealCards(int hand)
     {
-        for(int i = currHandSize; i < maxHandSize; i++) 
+        for(int i = hand; i < maxHandSize; i++) 
         {
-            GameObject card = Instantiate(cards[Random.Range(0, cards.Count)], new Vector2(0, 0), Quaternion.identity);
+            GameObject card = Instantiate(Card1, new Vector2(0, 0), Quaternion.identity);
+            string cardName = cardNames[Random.Range(0, cardNames.Count)];
+            cardNames.Remove(cardName);
+            //card.GetComponent<CardProperties>().cardText = cardName;
+            //card.transform.GetChild(0).gameObject.GetComponent<Text>().text = cardName;
             NetworkServer.Spawn(card, connectionToClient);
             RpcShowCard(card, "Dealt");
-            currHandSize += 1;
+            RpcShowCardText(card, cardName);
+            hand += 1;
         }
     }
 
@@ -58,6 +73,13 @@ public class PlayerManager : NetworkBehaviour
     }
 
     [ClientRpc]
+    void RpcShowCardText(GameObject card, string cardName)
+    {
+        card.GetComponent<CardProperties>().cardText = cardName;
+        card.transform.GetChild(0).gameObject.GetComponent<Text>().text = cardName;
+    }
+
+    [ClientRpc]
     void RpcShowCard(GameObject card, string type)
     {
         if (type == "Dealt")
@@ -68,7 +90,7 @@ public class PlayerManager : NetworkBehaviour
             }
             else
             {
-                card.transform.SetParent(EnemyArea.transform, false);
+                //card.transform.SetParent(EnemyArea.transform, false);
             }
         }
         else if (type == "Played")

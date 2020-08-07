@@ -25,6 +25,7 @@ public class DragDrop : NetworkBehaviour
         NetworkIdentity networkIdentity = NetworkClient.connection.identity;
         PlayerManager = networkIdentity.GetComponent<PlayerManager>();
         
+
         if(!hasAuthority)
         {
             isDraggable = false;
@@ -74,14 +75,13 @@ public class DragDrop : NetworkBehaviour
 
         isDragging = false;
 
-        if (isOverDrop && currDropSize < maxDropSize) 
+        if (isOverDrop && (PlayerManager.currDropSize < maxDropSize)) 
         {
             PlayerManager.currHandSize -= 1;
-
             transform.SetParent(dropZone.transform, false);
             isDraggable = false;
             PlayerManager.PlayCard(gameObject);
-            currDropSize += 1;
+            PlayerManager.currDropSize += 1;
         }
         else 
         {

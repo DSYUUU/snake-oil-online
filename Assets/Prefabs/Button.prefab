@@ -63,7 +63,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.7607844, g: 0.7607844, b: 0.7607844, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -145,10 +145,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff138f3a7bdf8034bbe542b19d14c604, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Card1: {fileID: 6503106728485656943, guid: 8145f2a611a1e634fbbed4dd036f892d, type: 3}
-  Card2: {fileID: 722895097882021939, guid: 1e94d4806569edd4693830ed400c273f, type: 3}
-  PlayerArea: {fileID: 0}
-  EnemyArea: {fileID: 0}
+  syncMode: 0
+  syncInterval: 0.1
+  PlayerManager: {fileID: 0}
 --- !u!114 &6597986554024705293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -217,7 +216,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.000022888184}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7795493310046865940
@@ -249,7 +248,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 18
+    m_FontSize: 32
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
