@@ -13,6 +13,8 @@ public class DrawCards : NetworkBehaviour
         PlayerManager = networkIdentity.GetComponent<PlayerManager>();
         PlayerManager.CmdDealCards(PlayerManager.currHandSize);
         PlayerManager.currHandSize = 6;
+        PlayerManager.CmdAddPlayer(PlayerManager.gameObject);
+        PlayerManager.CmdShowPlayers();
     }
 
 }

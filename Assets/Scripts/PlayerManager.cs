@@ -12,16 +12,20 @@ public class PlayerManager : NetworkBehaviour
     public GameObject PlayerArea;
     public GameObject EnemyArea;
     public GameObject DropZone;
+   
     public int currHandSize;
     public int currDropSize;
+    public string playerName;
+    public int points;
+    public int order;
 
     private string path = "Assets/Resources/cards.txt";
 
     private int maxHandSize = 6;
 
     private List<string> cardNames = new List<string>();
+    private List<GameObject> playerList = new List<GameObject>();
 
-    // Start is called before the first frame update
     public override void OnStartClient()
     {
         base.OnStartClient();
@@ -29,7 +33,11 @@ public class PlayerManager : NetworkBehaviour
         PlayerArea = GameObject.Find("PlayerArea");
         EnemyArea = GameObject.Find("EnemyArea");
         DropZone = GameObject.Find("DropZone");
+        Destroy(GameObject.Find("Splash"));
         currHandSize = 0;
+
+        //CmdAddPlayer(gameObject);
+        //CmdShowPlayers();
     }
 
     [Server]
@@ -64,6 +72,34 @@ public class PlayerManager : NetworkBehaviour
     public void PlayCard(GameObject card)
     {
         CmdPlayCard(card);
+    }
+
+    [Command]
+    public void CmdAddPlayer(GameObject player)
+    {
+        playerList.Add(player);
+    }
+
+
+    [Command]
+    public void CmdShowPlayers()
+    {
+        foreach (GameObject player in playerList)
+        {
+            RpcShowPlayers(player);
+        }
+        
+    }
+
+    [ClientRpc]
+    void RpcShowPlayers(GameObject player)
+    {   
+        player.transform.SetParent(EnemyArea.transform, false);
+        
+        if (hasAuthority)
+        {
+            player.transform.GetChild(0).gameObject.GetComponent<Text>().text = "YOU";
+        }
     }
 
     [Command]
